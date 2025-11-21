@@ -3,23 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import can from "@/public/assests/Mari-Baba.png";
-
 export default function CanLandingPage() {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // Check for mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   // Use scroll from the container instead of window
   const { scrollYProgress } = useScroll({
@@ -34,29 +20,38 @@ export default function CanLandingPage() {
     restDelta: 0.001,
   });
 
-  // Responsive animation values
+  // Fixed animation values to match comments:
+  // Section 1 (REFRESH): Center, no rotation, normal scale
+  // Section 2 (ENERGIZE): Right side, 45deg rotation, smaller
+  // Section 3 (REVITALIZE): Continue animating
+  // Section 4 (EXPERIENCE): Final position
+
+  // Horizontal position: center -> right on energize -> back to center for final
   const canX = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [110, 80, -140, 135] : [200, 300, -200, 230]
+    [190, 300, -200, 200]
   );
 
+  // Vertical position: stays centered
   const canY = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [-30, 80, 20, 80] : [120, 120, 130, 120]
+    [100, 120, 150, 120]
   );
 
+  // Rotation: 0deg -> 45deg on energize -> continue rotating
   const canRotate = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    [20, 45, -25, 0]
+    [20, 45, -45, 0]
   );
 
+  // Scale: normal -> smaller on energize -> back to normal for final
   const canScale = useTransform(
     smoothProgress,
-        [0, 0.33, 0.66, 1],
-    isMobile ? [0.6, 0.8, 0.9 , 0.8] : [1, 1.3, 0.8, 1]
+    [0, 0.25, 0.5, 0.75, 1],
+    [1, 1.3, 1.5, 1, 1]
   );
 
   // Update current section based on scroll progress
@@ -68,17 +63,6 @@ export default function CanLandingPage() {
 
     return () => unsubscribe();
   }, [smoothProgress]);
-
-  // Scroll to section function
-  const scrollToSection = (index: number) => {
-    if (containerRef.current) {
-      const sectionHeight = containerRef.current.scrollHeight / sections.length;
-      containerRef.current.scrollTo({
-        top: index * sectionHeight,
-        behavior: "smooth",
-      });
-    }
-  };
 
   const sections = [
     {
@@ -121,19 +105,19 @@ export default function CanLandingPage() {
           >
             {/* Background decoration */}
             <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-10 left-4 md:top-20 md:left-20 w-32 h-32 md:w-64 md:h-64 bg-white rounded-full blur-2xl md:blur-3xl"></div>
-              <div className="absolute bottom-10 right-4 md:bottom-20 md:right-20 w-48 h-48 md:w-96 md:h-96 bg-white rounded-full blur-2xl md:blur-3xl"></div>
+              <div className="absolute top-20 left-20 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+              <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
             </div>
 
             {/* Content */}
             <div
-              className={`relative z-10 text-center ${section.text} max-w-4xl px-4 md:px-8`}
+              className={`relative z-10 text-center ${section.text} max-w-4xl px-8`}
             >
               <motion.h1
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-5xl md:text-8xl font-black mb-4 md:mb-6 tracking-tight"
+                className="text-8xl font-black mb-4 tracking-tight"
               >
                 {section.title}
               </motion.h1>
@@ -141,7 +125,7 @@ export default function CanLandingPage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-2xl md:text-4xl font-light tracking-wide"
+                className="text-4xl font-light tracking-wide"
               >
                 {section.subtitle}
               </motion.p>
@@ -151,9 +135,9 @@ export default function CanLandingPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1, duration: 1 }}
-                  className="mt-6 md:mt-8"
+                  className="mt-8"
                 >
-                  <p className="text-sm md:text-lg animate-bounce">Scroll Down ↓</p>
+                  <p className="text-lg animate-bounce">Scroll Down ↓</p>
                 </motion.div>
               )}
 
@@ -164,7 +148,7 @@ export default function CanLandingPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.3 }}
-                  className="mt-8 md:mt-12 px-8 py-3 md:px-12 md:py-4 bg-white text-gray-800 rounded-full text-lg md:text-xl font-bold shadow-2xl hover:shadow-3xl"
+                  className="mt-12 px-12 py-4 bg-white text-gray-800 rounded-full text-xl font-bold shadow-2xl hover:shadow-3xl"
                 >
                   Get Yours Now
                 </motion.button>
@@ -185,13 +169,7 @@ export default function CanLandingPage() {
         className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
       >
         {/* Can SVG */}
-        <Image 
-          src={can} 
-          alt="Soda Can" 
-          width={isMobile ? 200 : 400}
-          height={isMobile ? 400 : 800}
-          className="w-auto h-auto"
-        />
+        <Image src={can} alt="Soda Can" height={"400"} />
 
         {/* Animated sparkles around can */}
         <motion.div
@@ -204,7 +182,7 @@ export default function CanLandingPage() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-2 h-2 md:w-4 md:h-4 bg-yellow-300 rounded-full blur-sm"
+          className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-300 rounded-full blur-sm"
         />
         <motion.div
           animate={{
@@ -217,7 +195,7 @@ export default function CanLandingPage() {
             ease: "easeInOut",
             delay: 0.5,
           }}
-          className="absolute top-1/2 -left-1 md:-left-3 w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full blur-sm"
+          className="absolute top-1/2 -left-3 w-3 h-3 bg-blue-300 rounded-full blur-sm"
         />
         <motion.div
           animate={{
@@ -230,26 +208,26 @@ export default function CanLandingPage() {
             ease: "easeInOut",
             delay: 1,
           }}
-          className="absolute bottom-4 right-1 md:bottom-10 md:right-2 w-2 h-2 md:w-3 md:h-3 bg-cyan-300 rounded-full blur-sm"
+          className="absolute bottom-10 right-2 w-3 h-3 bg-cyan-300 rounded-full blur-sm"
         />
       </motion.div>
 
-      {/* Scroll indicator dots - Fixed positioning and behavior */}
-      <div className={`fixed hidden z-40 ${isMobile ? 
-        "bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-4" : 
-        "left-6 md:left-8 top-1/2 transform -translate-y-1/2 space-y-4"}`}
-      >
+      {/* Scroll indicator dots */}
+      <div className="fixed left-8 top-1/2 rotate-90 z-40 space-y-4">
         {sections.map((_, index) => (
           <button
             key={index}
-            onClick={() => scrollToSection(index)}
-            className={`transition-all duration-300 ${
+            onClick={() => {
+              containerRef.current?.scrollTo({
+                top: index * window.innerHeight,
+                // behavior: "smooth",
+              });
+            }}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
               currentSection === index
                 ? "bg-white scale-125"
                 : "bg-white/40 hover:bg-white/60"
-            } ${
-              isMobile ? "w-3 h-3" : "w-3 h-3 md:w-3 md:h-3"
-            } rounded-full`}
+            }`}
             aria-label={`Go to section ${index + 1}`}
           />
         ))}

@@ -39,26 +39,26 @@ export default function CanLandingPage() {
   const canX = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [120, 80, -105, 150] : [0, 200, -400, 100]
+    isMobile ? [120, 80, -105, 150] : [235, 200, -250, 180]
   );
 
   const canY = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [-40, 80, 57, 60] : [0, -50, 0, -60, 0]
+    isMobile ? [-40, 80, 57, 60] : [0, 120, 120, 100]
   );
 
   const canRotate = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    [20, 45, -45, 0]
+    [20, 45, -25, 0]
   );
 
   const canScale = useTransform(
     smoothProgress,
         [0, 0.33, 0.66, 1],
 
-    isMobile ? [0.6, 0.8, 1, 0.8] : [1, 1.3, 1.5, 1]
+    isMobile ? [0.6, 0.8, 1, 0.8] : [1.5, 1.3, 1.5, 1]
   );
 
   // Improved section detection with Intersection Observer

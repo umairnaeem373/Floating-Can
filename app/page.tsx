@@ -38,25 +38,25 @@ export default function CanLandingPage() {
   const canX = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [110, 80, -140, 135] : [200, 300, -200, 230]
+    isMobile ? [110, 80, -140, 135] : [0, 200, -400, 100]
   );
 
   const canY = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [-30, 80, 20, 80] : [120, 120, 130, 120]
+    isMobile ? [-30, 80, 20, 80] : [0, -50, 0, -60, 0]
   );
 
   const canRotate = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    [20, 45, -25, 0]
+    [0, 45, -45, 0]
   );
 
   const canScale = useTransform(
     smoothProgress,
         [0, 0.33, 0.66, 1],
-    isMobile ? [0.6, 0.8, 0.9 , 0.8] : [1, 1.3, 0.8, 1]
+    isMobile ? [0.6, 0.8, 0.9 , 0.8] : [1, 1.3, 1.5, 1]
   );
 
   // Update current section based on scroll progress

@@ -39,13 +39,13 @@ export default function CanLandingPage() {
   const canX = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [120, 80, -105, 150] : [190, 300, -200, 200]
+    isMobile ? [120, 80, -105, 150] : [0, 200, -400, 100]
   );
 
   const canY = useTransform(
     smoothProgress,
     [0, 0.33, 0.66, 1],
-    isMobile ? [-40, 80, 57, 60] : [100, 120, 150, 120]
+    isMobile ? [-40, 80, 57, 60] : [0, -50, 0, -60, 0]
   );
 
   const canRotate = useTransform(

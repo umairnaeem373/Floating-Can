@@ -143,7 +143,7 @@ export default function CanLandingPage() {
           <section
             key={index}
             ref={(el) => {
-              sectionRefs.current[index] = el;
+              sectionRefs.current[index] = el as HTMLDivElement | null;
             }}
             className={`h-screen w-full snap-start snap-always flex items-center justify-center bg-gradient-to-br ${section.bg} relative overflow-hidden`}
           >

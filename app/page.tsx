@@ -211,6 +211,7 @@ export default function CanLandingPage() {
     scale: canScale,
     translateX: "-50%",
     translateY: "-50%",
+        }}
         className="fixed left-1/2 top-1/2 z-50 pointer-events-none"
       >
         {/* Can SVG */}

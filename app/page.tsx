@@ -30,8 +30,8 @@ export default function CanLandingPage() {
 
   // Smooth spring animation for scroll
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 60,
+    stiffness: 120,
+    damping: 80,
     restDelta: 0.001,
   });
 
@@ -206,11 +206,12 @@ export default function CanLandingPage() {
       <motion.div
         style={{
           x: canX,
-          y: canY,
-          rotate: canRotate,
-          scale: canScale,
-        }}
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
+    y: canY,
+    rotate: canRotate,
+    scale: canScale,
+    translateX: "-50%",
+    translateY: "-50%",
+        className="fixed left-1/2 top-1/2 z-50 pointer-events-none"
       >
         {/* Can SVG */}
         <Image 
@@ -218,7 +219,7 @@ export default function CanLandingPage() {
           alt="Soda Can" 
           width={isMobile ? 200 : 400}
           height={isMobile ? 400 : 800}
-          className="w-auto h-auto"
+          className="block w-auto h-auto"
         />
 
         {/* Animated sparkles around can */}

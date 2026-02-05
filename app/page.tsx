@@ -30,8 +30,8 @@ export default function CanLandingPage() {
 
   // Smooth spring animation for scroll
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 0,
+    stiffness: 10,
+    damping: 60,
     restDelta: 0.001,
   });
 
